@@ -3,12 +3,12 @@ from resource_helper import *
 import argparse
 
 parser = argparse.ArgumentParser(description='Syntax Example: python script.py 60 /Users/user/Desktop/matrix.xlsx')
-parser.add_argument('yearGrowth', metavar='[yearGrowth]', type=int, help='Example: 60')
+parser.add_argument('yearGrowth', metavar='[yearGrowth]', type=float, help='Example: 60')
 parser.add_argument('filename', metavar='[inputFilename]', help='Example: /Users/dacobos/Desktop/matrix.xlsx')
 args = parser.parse_args()
 
 
-yearGrowth = args.yearGrowth/100+1
+yearGrowth = round(((args.yearGrowth+100)/100),1)
 kpiVal = 0.8
 
 
@@ -59,7 +59,7 @@ prevTen = []
 prevHun = []
 #
 #
-print 'Running script for Year Growth '+str(yearGrowth)+'%'+'and KPI 80%'
+print 'Running script for Year Growth '+str(args.yearGrowth)+'%'+' and KPI 80.0%'
 
 
 for i in range(len(siteList)):
