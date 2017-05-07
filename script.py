@@ -222,3 +222,5 @@ for i in range(len(siteList)):
 print 'Writing results to: '+args.filename
 result = [bw18,newTen18,utilTen18,newHund18,utilHund18,bw19,newTen19,utilTen19,newHund19,utilHund19,bw20,newTen20,utilTen20,newHund20,utilHund20,bw21,newTen21,utilTen21,newHund21,utilHund21,bw22,newTen22,utilTen22,newHund22,utilHund22,bw23,newTen23,utilTen23,newHund23,utilHund23]
 matrixWriter(result, args.filename)
+
+# Copyrigth David Cobos: dacobos@cisco.com

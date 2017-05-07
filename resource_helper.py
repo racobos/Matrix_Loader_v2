@@ -192,3 +192,5 @@ def getSitebw(filename, siteList, site):
             # siteBw = round(siteBw,2)
 
     return siteBw
+
+# Copyrigth David Cobos: dacobos@cisco.com
