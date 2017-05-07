@@ -11,6 +11,10 @@ kpiVal = 0.8
 
 def kpiHund(siteBw, prevHun):
 
+    if siteBw >= (1100*kpiVal):
+        result = 12 - prevHun
+    if siteBw >= (1000*kpiVal):
+        result = 11 - prevHun
     if siteBw >= (900*kpiVal):
         result = 10 - prevHun
     elif siteBw >= (800*kpiVal):
@@ -45,7 +49,7 @@ def kpiTen(siteBw, prevTen):
         result = 1 - prevTen
 
     if result == -1:
-        result = 0  
+        result = 0
     return result
 
 def matrixWriter(result, filename):
@@ -53,9 +57,9 @@ def matrixWriter(result, filename):
     wb = load_workbook(filename)
     ws = wb.active
     firstList = []
-    for row in range (1,3):
+    for row in range (1,6):
         data = []
-        for col in ws.iter_cols(min_col=1, min_row=row, max_col=35, max_row=row):
+        for col in ws.iter_cols(min_col=1, min_row=row, max_col=39, max_row=row):
             for cell in col:
                 data.append(cell.value)
         firstList.append(data)
@@ -63,7 +67,7 @@ def matrixWriter(result, filename):
     secondList = []
     for row in range (3,ws.max_row+1):
         data = []
-        for col in ws.iter_cols(min_col=1, min_row=row, max_col=5, max_row=row):
+        for col in ws.iter_cols(min_col=1, min_row=row, max_col=9, max_row=row):
             for cell in col:
                 data.append(cell.value)
         secondList.append(data)
@@ -93,7 +97,7 @@ def matrixWriter(result, filename):
             worksheet.write(row, col, secondList[i][t])
 
 
-    col = 4
+    col = 8
 
     for i in range(len(result)):
         col = col+1
@@ -120,6 +124,21 @@ def getSiteList(filename):
 
     return siteList
 
+def getInitialbw(filename):
+    wb = load_workbook(filename)
+    ws = wb.active
+    initialBw = []
+    for row in range (3,ws.max_row+1):
+    # for row in range (3,6):
+        data = []
+        for col in ws.iter_cols(min_col=6, min_row=row, max_col=6, max_row=row):
+            for cell in col:
+                data.append(cell.value)
+
+        initialBw.append(round(data[0],2))
+
+    return initialBw
+
 def getTenDemands(filename):
     wb = load_workbook(filename)
     ws = wb.active
@@ -127,7 +146,7 @@ def getTenDemands(filename):
     for row in range (3,ws.max_row+1):
     # for row in range (3,6):
         data = []
-        for col in ws.iter_cols(min_col=4,min_row=row, max_col=5, max_row=row):
+        for col in ws.iter_cols(min_col=8,min_row=row, max_col=8, max_row=row):
             for cell in col:
                 data.append(cell.value)
 
@@ -142,7 +161,7 @@ def getHundDemands(filename):
     for row in range (3,ws.max_row+1):
     # for row in range (3,6):
         data = []
-        for col in ws.iter_cols(min_col=5, min_row=row, max_col=6, max_row=row):
+        for col in ws.iter_cols(min_col=9, min_row=row, max_col=9, max_row=row):
             for cell in col:
                 data.append(cell.value)
 
@@ -150,48 +169,26 @@ def getHundDemands(filename):
 
     return HundDemands
 
-def getSitebw(country, site):
+
+
+def getSitebw(filename, siteList, site):
     siteBw = 0
-    wb = load_workbook('/Users/dacobos/Desktop/country_bw.xlsx')
-    if country == 'Guatemala':
-        sheet_name = 'GT_BW_PE'
-    elif country == 'El Salvador':
-        sheet_name = 'SV_BW_PE'
-    elif country == 'Nicaragua':
-        sheet_name = 'NI_BW_PE'
-    elif country == 'Honduras':
-        sheet_name = 'HN_BW_PE'
-    elif country == 'Costa Rica':
-        sheet_name = 'CR_BW_PE'
-    elif country == 'Panama':
-        sheet_name = 'PAN_BW_PE'
-    elif country == 'Peering':
-        sheet_name = 'Peering'
-    elif country == 'SV_EDGE':
-        sheet_name = 'SV_EDGE'
-    elif country == 'SV_PREAGG':
-        sheet_name = 'SV_PREAGG'
-    elif country == 'CR_EDGE':
-        sheet_name = 'CR_EDGE'
-    elif country == 'GT_EDGE':
-        sheet_name = 'GT_EDGE'
-    else:
-        sheet_name = None
 
-    if sheet_name != None:
-        ws = wb.get_sheet_by_name(sheet_name)
-        siteList = []
+    wb = load_workbook(filename)
+    ws = wb.active
 
-        for row in range (3,ws.max_row+1):
-            data = []
-            for col in ws.iter_cols(min_row=row, max_col=5, max_row=row):
-                for cell in col:
-                    data.append(cell.value)
-            siteList.append(data)
+    siteList = []
 
-        for i in range(len(siteList)):
-            if site in siteList[i]:
-                siteBw = siteBw + siteList[i][4]
-                # siteBw = round(siteBw,2)
+    for row in range (3,ws.max_row+1):
+        data = []
+        for col in ws.iter_cols(min_row=row, max_col=5, max_row=row):
+            for cell in col:
+                data.append(cell.value)
+        siteList.append(data)
+
+    for i in range(len(siteList)):
+        if site in siteList[i]:
+            siteBw = siteBw + siteList[i][4]
+            # siteBw = round(siteBw,2)
 
     return siteBw

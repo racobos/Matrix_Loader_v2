@@ -3,7 +3,6 @@ from resource_helper import *
 import argparse
 
 parser = argparse.ArgumentParser(description='Parse a xlsx')
-parser.add_argument('country', metavar='country name', help='Example: CostaRica, Guatemala, etc')
 parser.add_argument('filename', metavar='.xlsx file', help='Example: /Users/dacobos/Desktop/matrix.xlsx')
 args = parser.parse_args()
 
@@ -15,7 +14,7 @@ kpiVal = 0.8
 siteList = getSiteList(args.filename)
 tenDemands = getTenDemands(args.filename)
 hundDemands = getHundDemands(args.filename)
-
+initialBw = getInitialbw(args.filename)
 
 
 
@@ -61,14 +60,13 @@ prevHun = []
 #
 print 'Retrieving Initial Information'
 
+
 for i in range(len(siteList)):
-    site = siteList[i]
-    siteBw = getSitebw(args.country,site)
+    siteBw = initialBw[i]
     siteBw = round(siteBw*initialGrowth2018,2)
     bw18.append(siteBw)
     prevTen.append(tenDemands[i])
     prevHun.append(hundDemands[i])
-
 
     if siteBw >= (kpiVal*40):
         newTen18.append(0)
@@ -84,9 +82,11 @@ for i in range(len(siteList)):
         newHund18.append(0)
         utilHund18.append(0)
 
-print 'Bandwith Required at 2018, Verify there are values, if zero, probably could not retrieve the initial bandwith information'
-for i in  bw18:
-    print i
+    if bw18[i] == 0:
+        print 'Error collecting initialBw for:'+siteList[i]
+
+
+
 
 print 'Calculating for 2018'
 print 'Calculating for 2019'
@@ -110,12 +110,12 @@ for i in range(len(siteList)):
 
 
 
-# print bw19[i]
-# print newTen19[i]
-# print utilTen19[i]
-# print newHund19[i]
-# print utilHund19[i]
-#
+    # print bw19[i]
+    # print newTen19[i]
+    # print utilTen19[i]
+    # print newHund19[i]
+    # print utilHund19[i]
+
 print 'Calculating for 2020'
 for i in range(len(siteList)):
     siteBw = round(bw19[i]*yearGrowth,2)
@@ -134,13 +134,13 @@ for i in range(len(siteList)):
         utilTen20.append(round(siteBw * 100 /(prevTen[i]*10),2))
         newHund20.append(0)
         utilHund20.append(0)
-#
-# # print bw20
-# # print newTen20
-# # print utilTen20
-# # print newHund20
-# # print utilHund20
-#
+
+    # print bw20[i]
+    # print newTen20[i]
+    # print utilTen20[i]
+    # print newHund20[i]
+    # print utilHund20[i]
+
 print 'Calculating for 2021'
 for i in range(len(siteList)):
     siteBw = round(bw20[i]*yearGrowth,2)
@@ -159,13 +159,13 @@ for i in range(len(siteList)):
         utilTen21.append(round(siteBw * 100 /(prevTen[i]*10),2))
         newHund21.append(0)
         utilHund21.append(0)
-#
-# # print bw21
-# # print newTen21
-# # print utilTen21
-# # print newHund21
-# # print utilHund21
-#
+    #
+    # print bw21[i]
+    # print newTen21[i]
+    # print utilTen21[i]
+    # print newHund21[i]
+    # print utilHund21[i]
+
 print 'Calculating for 2022'
 for i in range(len(siteList)):
     siteBw = round(bw21[i]*yearGrowth,2)
@@ -184,14 +184,14 @@ for i in range(len(siteList)):
         utilTen22.append(round(siteBw * 100 /(prevTen[i]*10),2))
         newHund22.append(0)
         utilHund22.append(0)
-#
-# # print bw22
-# # print newTen22
-# # print utilTen22
-# # print newHund22
-# # print utilHund22
-#
-#
+    #
+    # print bw22[i]
+    # print newTen22[i]
+    # print utilTen22[i]
+    # print newHund22[i]
+    # print utilHund22[i]
+    #
+
 print 'Calculating for 2023'
 for i in range(len(siteList)):
     siteBw = round(bw22[i]*yearGrowth,2)
@@ -211,13 +211,13 @@ for i in range(len(siteList)):
         newHund23.append(0)
         utilHund23.append(0)
 
-# print bw23
-# print newTen23
-# print utilTen23
-# print newHund23
-# print utilHund23
+    # print bw23[i]
+    # print newTen23[i]
+    # print utilTen23[i]
+    # print newHund23[i]
+    # print utilHund23[i]
 
 
-print 'Writing results to Matrix.xlsx at Desktop'
+print 'Writing results to: '+args.filename
 result = [bw18,newTen18,utilTen18,newHund18,utilHund18,bw19,newTen19,utilTen19,newHund19,utilHund19,bw20,newTen20,utilTen20,newHund20,utilHund20,bw21,newTen21,utilTen21,newHund21,utilHund21,bw22,newTen22,utilTen22,newHund22,utilHund22,bw23,newTen23,utilTen23,newHund23,utilHund23]
 matrixWriter(result, args.filename)
