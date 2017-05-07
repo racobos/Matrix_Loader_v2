@@ -2,12 +2,13 @@ import os
 from resource_helper import *
 import argparse
 
-parser = argparse.ArgumentParser(description='Parse a xlsx')
-parser.add_argument('filename', metavar='.xlsx file', help='Example: /Users/dacobos/Desktop/matrix.xlsx')
+parser = argparse.ArgumentParser(description='Syntax Example: python script.py 60 /Users/user/Desktop/matrix.xlsx')
+parser.add_argument('yearGrowth', metavar='[yearGrowth]', type=int, help='Example: 60')
+parser.add_argument('filename', metavar='[inputFilename]', help='Example: /Users/dacobos/Desktop/matrix.xlsx')
 args = parser.parse_args()
 
-initialGrowth2018 = 1.6
-yearGrowth = 1.6
+
+yearGrowth = args.yearGrowth/100+1
 kpiVal = 0.8
 
 
@@ -58,12 +59,12 @@ prevTen = []
 prevHun = []
 #
 #
-print 'Retrieving Initial Information'
+print 'Running script for Year Growth '+str(yearGrowth)+'%'+'and KPI 80%'
 
 
 for i in range(len(siteList)):
     siteBw = initialBw[i]
-    siteBw = round(siteBw*initialGrowth2018,2)
+    siteBw = round(siteBw*yearGrowth,2)
     bw18.append(siteBw)
     prevTen.append(tenDemands[i])
     prevHun.append(hundDemands[i])
