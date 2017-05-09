@@ -10,3 +10,8 @@ positional arguments:
 
 optional arguments:
   -h, --help       show this help message and exit
+  
+  Requirements:
+  sudo pip install openpyxl
+  sudo pip install xlsxwriter
+  sudo pip install argparse
